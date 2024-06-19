@@ -4,7 +4,7 @@ import TodoItem from "./TodoItem";
 
 function Todoslist() {
   return (
-    <div className={styles.todolist}>
+    <div className={styles.todoslist}>
       {[0, 1, 2, 3].map((item) => (
         <Card>
           <TodoItem />
