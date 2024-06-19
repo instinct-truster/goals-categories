@@ -1,0 +1,11 @@
+.taskName {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+
+.actionButton {
+  display: flex;
+  gap: 21px;
+}
