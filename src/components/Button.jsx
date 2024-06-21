@@ -1,9 +1,9 @@
 import styles from "./Button.module.css";
 
-function Button({ handleAddTodo }) {
+function Button({ onClick, isDisabled, children }) {
   return (
-    <button onClick={() => handleAddTodo()} className={styles.button}>
-      Add
+    <button disabled={isDisabled} onClick={onClick} className={styles.button}>
+      {children}
     </button>
   );
 }

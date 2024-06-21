@@ -1,12 +1,11 @@
 import styles from "./Todoslist.module.css";
 import Card from "./Card";
 import TodoItem from "./TodoItem";
-import { useSelector } from "react-redux";
 import Typography from "./Typography";
+import { useFilterTodos } from "../hooks/useFilterTodos";
 
 function Todoslist() {
-  const { todos, category } = useSelector((state) => state.todos);
-  const displayedTodos = todos.filter((todo) => todo.category === category);
+  const displayedTodos = useFilterTodos();
   return (
     <div className={styles.todoslist}>
       {displayedTodos.length > 0 ? (

@@ -1,24 +1,14 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../reducer/todosSlice";
+import Button from "./Button";
 import Card from "./Card";
+import Dropdown from "./Dropdown";
 import styles from "./Form.module.css";
 import Typography from "./Typography";
-import Button from "./Button";
-import Dropdown from "./Dropdown";
-import { useState } from "react";
-import { addTodo } from "../reducer/todosSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 function Form() {
-  const dispatch = useDispatch();
-  const { todos } = useSelector((state) => state.todos);
-  const [taskData, setTaskData] = useState({
-    name: "",
-    category: "",
-    done: false,
-  });
-  const handleAddTodo = () => {
-    const todosLength = todos.length;
-    dispatch(addTodo({ ...taskData, done: false, id: todosLength + 1 }));
-  };
+  const vm = useFormViewModel();
   return (
     <div className={styles.form}>
       <Typography fontSize={24} bold>
@@ -27,19 +17,63 @@ function Form() {
       <Card col>
         <div className={styles.inputContainer}>
           <Typography fontSize={16}>Task Name:</Typography>
-          <input
-            onChange={(e) => setTaskData({ ...taskData, name: e.target.value })}
-            type="text"
-          />
+          <input onChange={vm.handleNameChange} type="text" value={vm.name} />
         </div>
         <div className={styles.inputContainer}>
           <Typography fontSize={16}>Category:</Typography>
-          <Dropdown taskData={taskData} setTaskData={setTaskData} />
+          <Dropdown
+            placeholder="Please select a category"
+            value={vm.category}
+            onChange={vm.handleCategoryChange}
+          />
         </div>
-        <Button handleAddTodo={() => handleAddTodo()} />
+        <Button isDisabled={!vm.isValid} onClick={vm.handleAddTodo}>
+          Add
+        </Button>
       </Card>
     </div>
   );
 }
+
+function useFormViewModel() {
+  const dispatch = useDispatch();
+  const [category, setCategory] = useState(initialValues.category);
+  const [name, setName] = useState(initialValues.name);
+
+  const isValid = category !== "" && name.length > 0;
+
+  const clearForm = () => {
+    setName(initialValues.name);
+    setCategory(initialValues.category);
+  };
+
+  const handleAddTodo = () => {
+    const newTodo = { id: Date.now(), name, category, done: false };
+    dispatch(addTodo(newTodo));
+    clearForm();
+  };
+
+  const handleCategoryChange = (category) => {
+    setCategory(category);
+  };
+
+  const handleNameChange = (inputEvent) => {
+    setName(inputEvent.target.value);
+  };
+
+  return {
+    name,
+    category,
+    isValid,
+    handleAddTodo,
+    handleCategoryChange,
+    handleNameChange,
+  };
+}
+
+const initialValues = {
+  name: "",
+  category: "",
+};
 
 export default Form;

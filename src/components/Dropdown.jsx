@@ -1,26 +1,28 @@
 import styles from "./Dropdown.module.css";
 import down from "../assets/icons/down.svg";
 import { categories } from "../utils/categories";
-import { useState } from "react";
+import { useDisclosure } from "../hooks/useDisclosure";
 
-function Dropdown({ setTaskData, taskData }) {
-  const [openedDropdown, setOpenedDropdown] = useState(false);
+function Dropdown({
+  onChange,
+  value,
+  placeholder = "Please select an option",
+}) {
+  const { isOpen, toggle, close } = useDisclosure();
   return (
     <div className={styles.dropdown}>
-      <div
-        className={styles.dropdownHeader}
-        onClick={() => setOpenedDropdown(!openedDropdown)}>
-        <p>{taskData.category ? taskData.category : "Select a category"}</p>
+      <div className={styles.dropdownHeader} onClick={toggle}>
+        <p>{value ? value : placeholder}</p>
         <img src={down} alt="down arrow" />
       </div>
-      {openedDropdown && (
+      {isOpen && (
         <div className={styles.dropdownContent}>
           {categories.map((category) => (
             <p
               key={category.name}
               onClick={(e) => {
-                setTaskData({ ...taskData, category: e.target.innerHTML });
-                setOpenedDropdown(false);
+                onChange(e.target.innerHTML);
+                close();
               }}>
               {category.name}
             </p>
