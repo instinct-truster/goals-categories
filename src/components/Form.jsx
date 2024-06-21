@@ -4,9 +4,21 @@ import Typography from "./Typography";
 import Button from "./Button";
 import Dropdown from "./Dropdown";
 import { useState } from "react";
+import { addTodo } from "../reducer/todosSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Form() {
-  const [taskData, setTaskData] = useState({ name: "", category: "" });
+  const dispatch = useDispatch();
+  const { todos } = useSelector((state) => state.todos);
+  const [taskData, setTaskData] = useState({
+    name: "",
+    category: "",
+    done: false,
+  });
+  const handleAddTodo = () => {
+    const todosLength = todos.length;
+    dispatch(addTodo({ ...taskData, done: false, id: todosLength + 1 }));
+  };
   return (
     <div className={styles.form}>
       <Typography fontSize={24} bold>
@@ -24,7 +36,7 @@ function Form() {
           <Typography fontSize={16}>Category:</Typography>
           <Dropdown taskData={taskData} setTaskData={setTaskData} />
         </div>
-        <Button />
+        <Button handleAddTodo={() => handleAddTodo()} />
       </Card>
     </div>
   );

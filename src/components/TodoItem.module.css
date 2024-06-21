@@ -5,6 +5,13 @@
   gap: 12px;
 }
 
+.taskName input {
+  background: transparent;
+  border: 1px solid #ffffff;
+  font-size: 24px;
+  outline: none;
+}
+
 .actionButton {
   display: flex;
   gap: 21px;

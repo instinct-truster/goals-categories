@@ -6,8 +6,8 @@ import football from "../assets/icons/football.svg";
 
 export const categories = [
   { name: "faith", icon: church },
-  { name: "fitness", icon: fitness },
   { name: "family", icon: airplane },
-  { name: "work", icon: laptop },
-  { name: "football", icon: football },
+  { name: "fitness", icon: fitness },
+  { name: "finance", icon: laptop },
+  { name: "fantasy", icon: football },
 ];

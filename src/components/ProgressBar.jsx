@@ -1,10 +1,16 @@
 import styles from "./ProgressBar.module.css";
+import { useSelector } from "react-redux";
 
-function ProgressBar({ progress }) {
+function ProgressBar() {
+  const { todos } = useSelector((state) => state.todos);
+  const doneTodos = todos.filter((todo) => !todo.done);
+  const doneTodosPercentage = (doneTodos.length * 100) / todos.length;
   return (
     <div className={styles.progressBar}>
-      <p className={styles.progressValue}>{progress}</p>
-      <div className={styles.progress}></div>
+      <p className={styles.progressValue}>{doneTodosPercentage + "%"}</p>
+      <div
+        className={styles.progress}
+        style={{ width: `${doneTodosPercentage}%` }}></div>
     </div>
   );
 }

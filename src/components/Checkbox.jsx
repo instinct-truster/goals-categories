@@ -1,12 +1,20 @@
 import styles from "./Checkbox.module.css";
 import checkmark from "../assets/icons/checkmark.svg";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateTodo } from "../reducer/todosSlice";
 
-function Checkbox() {
-  const [checked, setChecked] = useState(false);
+function Checkbox({ todo }) {
+  const dispatch = useDispatch();
+  const handleCheckbox = (checked) => {
+    dispatch(updateTodo({ ...todo, done: checked }));
+  };
   return (
-    <div className={checked ? styles.checkbox : styles.active}>
-      <input type="checkbox" onChange={(e) => setChecked(e.target.checked)} />
+    <div className={todo.done ? styles.checkbox : styles.active}>
+      <input
+        type="checkbox"
+        checked={todo.done}
+        onChange={(e) => handleCheckbox(e.target.checked)}
+      />
       <img src={checkmark} alt="checkmark" />
     </div>
   );

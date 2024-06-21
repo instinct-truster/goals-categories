@@ -8,13 +8,16 @@ import {
   Form,
   CategoriesList,
 } from "./components";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { category } = useSelector((state) => state.todos);
   return (
     <MainContainer>
       <Title />
       <Typography fontSize={24} bold marginTop={38} marginBottom={17}>
-        List of Tasks
+        List of <span style={{ textTransform: "uppercase" }}>{category}</span>{" "}
+        Tasks
       </Typography>
 
       <MainContainer flexrow>
@@ -24,7 +27,7 @@ function App() {
             <Typography fontSize={24} bold>
               List of Tasks
             </Typography>
-            <ProgressBar progress={"60%"} />
+            <ProgressBar />
           </Card>
           <Form />
         </MainContainer>
